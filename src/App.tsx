@@ -5,7 +5,9 @@ import { Cookies } from "react-cookie";
 import { useState, useEffect } from "react";
 
 //페이지 컴포넌트
-import LoginPage from "./pages/Auth/LoginPage";
+// import LoginPage from "./pages/Auth/LoginPage";
+import Main from "./pages/Main/Main";
+import BottomNav from "./components/Layout/BottomNav";
 // import Main from "./pages/Main/Main";
 // import Recommend from "./pages/Recommend/RecommendPage";
 // import BottomNav from "./components/Layout/BottomNav";
@@ -45,36 +47,41 @@ function App(): JSX.Element {
   };
 
   const routes: RouteConfig[] = [
-    { path: "/", element: <LoginPage setIsAuthenticated={setIsAuthenticated} /> },
+    // { path: "/", element: <LoginPage setIsAuthenticated={setIsAuthenticated} /> },
     // { path: "/recommend", element: <Recommend />, private: true },
     // { path: "/addpost", element: <AddPost />, private: true },
     // { path: "/like", element: <MyLike />, private: true },
     // { path: "/mypage", element: <MyPage />, private: true },
-    // { path: "/main", element: <Main />, private: true },
+    { path: "/main", element: <Main />, private: false },
     // { path: "/post/:id", element: <Post />, private: true },
     // { path: "/search", element: <Search />, private: true },
     // { path: "/signup", element: <SignUp /> },
   ];
 
-  const PrivateRoute = ({ element }: { element: JSX.Element }): JSX.Element => 
+  const PrivateRoute = ({ element }: { element: JSX.Element }): JSX.Element =>
     isAuthenticated ? element : <Navigate to="/" replace />;
 
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
         <Container>
+          {
+            shouldShowBottomNav() ? <BottomNav /> : null
+          }
           <Routes>
-            {routes.map((route) =>
-              route.private ? (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={<PrivateRoute element={route.element} />}
-                />
-              ) : (
-                <Route key={route.path} path={route.path} element={route.element} />
+            {
+              routes.map((route) =>
+                route.private ? (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<PrivateRoute element={route.element} />}
+                  />
+                ) : (
+                  <Route key={route.path} path={route.path} element={route.element} />
+                )
               )
-            )}
+            }
           </Routes>
         </Container>
       </BrowserRouter>
