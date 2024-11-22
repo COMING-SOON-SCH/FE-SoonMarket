@@ -16,7 +16,7 @@ type Post = {
   openchatUrl: string;
   createAt: string;
   updateAt: string;
-  deleteAt: string;
+  deleteAt: string | null;
 };
 
 type PostListResponse = {

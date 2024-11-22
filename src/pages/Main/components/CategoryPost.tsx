@@ -11,13 +11,21 @@ const CategoryPost: React.FC = () => {
     selectedCategory === "전체" ? getSearchPostList("", "", 10, 0) : getSearchPostList("", selectedCategory, 10, 0);
   }, [getSearchPostList, selectedCategory]);
 
+  console.log(searchPostList);
+
   return (
     <>
       <CategoryBtnGroup selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
       {
-        searchPostList?.posts.map(post => {
-          <PostCard key={post.postId} post={post} />
-        })
+        searchPostList?.posts ? (
+          searchPostList.posts.map((post) => (
+            <div key={post.postId}>
+              <PostCard post={post} />
+            </div>
+          ))
+        ) : (
+          <p>게시물이 없습니다.</p>
+        )
       }
     </>
   )
