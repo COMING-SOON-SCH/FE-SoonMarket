@@ -1,22 +1,12 @@
 import styled from "styled-components";
 import TopBar from "./components/TopBar";
 import { useEffect } from "react";
-import PostComponent from "./components/PostComponent";
-import { useNavigate } from "react-router-dom";
 import useGetLikePost from "./useGetLikePost";
+import WidePostCard from "../../components/Post/WidePostCard";
+import { Divider } from "@mui/material";
 
-interface LikePost {
-    id: number;
-    postId: number;
-    title: string;
-    images: {imageUrl: string}[];
-    date: string;
-    likes: number;
-    price?: string;
-}
 
 const LikePage = () => {
-  const navigate = useNavigate();
   const { likePosts, getLikePost } = useGetLikePost();
 
   useEffect(() => {
@@ -28,8 +18,11 @@ const LikePage = () => {
       <TopBar />
       <h1 style={{ margin: "0px 0px 0px 20px", alignSelf: "flex-start" }}>관심 목록</h1>
       {likePosts && likePosts.length > 0 ? (
-        likePosts.map((data: LikePost) => (
-          <PostComponent key={data.id} data={data} onClick={() => navigate(`/post/${data.postId}`)} />
+        likePosts.map((data) => (
+          <>
+            <WidePostCard key={data.postId} post={data}/>
+            <Divider style={{ width: "95%" }} />
+          </>
         ))
       ) : (
         <p>관심 목록이 없습니다.</p>

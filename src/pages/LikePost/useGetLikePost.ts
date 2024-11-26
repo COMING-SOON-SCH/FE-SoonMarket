@@ -2,13 +2,30 @@ import axios from "axios";
 import { useCallback, useState } from "react"
 import { useCookies } from "react-cookie";
 
+type PostImage = {
+  imageUrl: string;
+  originalName: string;
+};
+
+type Post = {
+  title: string;
+  images: PostImage[];
+  postId: number;
+  price: number;
+  category: string;
+  countLike: number;
+  openchatUrl: string;
+  createAt: string;
+  updateAt: string;
+  deleteAt: string | null;
+};
 const useGetLikePost = () => {
-  const [likePosts, setLikePosts] = useState([]);
+  const [likePosts, setLikePosts] = useState<Post[] | null>(null);
   const [cookies] = useCookies(['access_token']);
   const token = cookies.access_token;
 
   const getLikePost = useCallback(async () => {
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const apiUrl = import.meta.env.VITE_API_URL;
     try {
       const response = await axios.get(`${apiUrl}/likes`, {
         headers: {
