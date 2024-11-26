@@ -13,7 +13,7 @@ import Search from "./pages/Search/Search";
 // import Main from "./pages/Main/Main";
 // import Recommend from "./pages/Recommend/RecommendPage";
 // import AddPost from "./pages/AddPost/AddPostPage";
-// import MyLike from "./pages/LikePost/LikePage";
+ import LikePost from "./pages/LikePost/LikePage";
 // import MyPage from "./pages/MyPage/MyPage";
 // import Post from "./pages/Post/PostPage";
 import SignUp from "./pages/Auth/SignUpPage";
@@ -68,7 +68,7 @@ function App(): JSX.Element {
     { path: "/", element: <LoginPage /> },
     // { path: "/recommend", element: <Recommend />, private: true },
     // { path: "/addpost", element: <AddPost />, private: true },
-    // { path: "/like", element: <MyLike />, private: true },
+     { path: "/like", element: <LikePost />, private: true },
     // { path: "/mypage", element: <MyPage />, private: true },
     { path: "/main", element: <Main />, private: true },
     // { path: "/post/:id", element: <Post />, private: true },
