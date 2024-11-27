@@ -22,6 +22,7 @@ import SignUp from "./pages/Auth/SignUpPage";
 import { setIsAuthenticated } from "./redux/modules/auth";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
+import AddPostPage from "./pages/AddPost/AddPostPage";
 
 const theme = createTheme({
   typography: {
@@ -60,14 +61,14 @@ function App(): JSX.Element {
   };
 
   const shouldShowBottomNav = (): boolean => {
-    const noBottomNavRoutes = ["/", "/signup", "/signup1", "/post/addpost",];
+    const noBottomNavRoutes = ["/", "/signup", "/signup1", "/addpost",];
     return !noBottomNavRoutes.includes(location.pathname);
   };
 
   const routes: RouteConfig[] = [
     { path: "/", element: <LoginPage /> },
     // { path: "/recommend", element: <Recommend />, private: true },
-    // { path: "/addpost", element: <AddPost />, private: true },
+    { path: "/addpost", element: <AddPostPage />, private: true },
     // { path: "/like", element: <MyLike />, private: true },
     // { path: "/mypage", element: <MyPage />, private: true },
     { path: "/main", element: <Main />, private: true },
