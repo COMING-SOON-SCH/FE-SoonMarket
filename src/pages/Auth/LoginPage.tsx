@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, Navigate } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import { useCookies } from "react-cookie";
+import { getFCMToken } from "../../firebaseConfig";
 
 const LoginPage: React.FC = () => {
   const [cookies] = useCookies(['access_token']);
   const token = cookies.access_token;
+  const [fcmToken, setFcmToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getFCMTokenAsync = async () => {
+      const token = await getFCMToken();
+      setFcmToken(token);
+    };
+
+    getFCMTokenAsync();
+  }, []);
 
   if (token) {
     return <Navigate to="/main" replace />
@@ -17,7 +28,7 @@ const LoginPage: React.FC = () => {
       <Header>
         <Title>Soon-Market</Title>
       </Header>
-      <LoginForm />
+      <LoginForm fcmToken={fcmToken} />
       <Footer>
         <StyledLink to="/findpassword">비밀번호 찾기</StyledLink>ㅣ
         <StyledLink to="/signup">가입하기</StyledLink>

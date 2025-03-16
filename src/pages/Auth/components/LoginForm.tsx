@@ -4,9 +4,8 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { Button, IconButton, TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import useLogin from "../../../api/Auth/useLogin";
-// import { requestFCMToken } from "../../../firebase/firebase"; // Firebase 관련 코드 주석 처리
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC<{ fcmToken: string | null }> = ({ fcmToken }) => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [idError, setIdError] = useState("");
@@ -17,7 +16,7 @@ const LoginForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     let err = 0;
-    setLoginError(""); 
+    setLoginError("");
     if (!id) {
       setIdError("아이디를 입력해주세요");
       err++;
@@ -33,13 +32,17 @@ const LoginForm: React.FC = () => {
     if (err === 0) {
       try {
         const fullEmail = `${id}@sch.ac.kr`;
-        await login(fullEmail, password); // FCM 토큰 없이 로그인 호출
-      } catch (error) {
-        setLoginError("아이디 또는 비밀번호가 정확하지 않습니다.");
-        console.error(error);
+        await login(fullEmail, password, fcmToken); // FCM 토큰 없이 로그인 호출
+      } catch (error: any) {
+        if (error.message === "401Error") {
+          setLoginError("아이디 혹은 비밀번호가 정확하지 않습니다.");
+        }
+        else {
+          setLoginError("로그인 중 예기치 않은 오류가 발생했습니다.");
+        }
       }
     }
-  };
+  }
 
   return (
     <LoginFormBox onSubmit={handleSubmit}>
@@ -54,7 +57,7 @@ const LoginForm: React.FC = () => {
           helperText={idError}
           InputProps={{
             endAdornment: (
-              <InputAdornment 
+              <InputAdornment
                 position="end"
                 style={{
                   color: "gray",
@@ -72,7 +75,7 @@ const LoginForm: React.FC = () => {
         </IconButton>
       </TextFieldContainer>
       <StatusMessage>아이디는 <b>순천향대학교 이메일</b> 형식입니다.</StatusMessage>
-      
+
       <TextFieldContainer>
         <LoginTextField
           variant="filled"
@@ -87,7 +90,7 @@ const LoginForm: React.FC = () => {
           <HighlightOffOutlinedIcon />
         </IconButton>
       </TextFieldContainer>
-      
+
       <SubmitButton variant="contained" type="submit">
         로그인
       </SubmitButton>

@@ -3,7 +3,6 @@ import { Cookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setIsAuthenticated } from "../../redux/modules/auth";
-import { getFCMToken } from "../../firebaseConfig";  // 🔹 FCM 토큰 가져오는 함수 추가
 
 const useLogin = () => {
 	const apiUrl = import.meta.env.VITE_API_URL as string;
@@ -11,8 +10,9 @@ const useLogin = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const login = async (email: string, password: string): Promise<void> => {
-		const fcmToken = await getFCMToken();  // 🔹 FCM 토큰 가져오기
+	const login = async (email: string, password: string, fcmToken: string | null): Promise<void> => {
+		if (!fcmToken) throw new Error("fcmtokenerror");
+
 		await axios.post(`${apiUrl}/users/login`, {
 			email,
 			password,
@@ -41,8 +41,8 @@ const useLogin = () => {
 			navigate("/main");
 		}).catch((error) => {
 			dispatch(setIsAuthenticated(false));
-			console.error("로그인 실패:", error);
-			throw error.response?.data?.message;
+			console.error("로그인 실패:", error.message);
+			throw new Error("401Error");
 		});
 	};
 	return login;
