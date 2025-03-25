@@ -31,7 +31,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = cookies.get('access_token');
     if (accessToken) {
-      config.headers['Authorization'] = `${accessToken}`;
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -64,7 +64,7 @@ axiosInstance.interceptors.response.use(
           {},
           {
             headers: {
-              Authorization: `${currentRefreshToken}`,
+              Authorization: `Bearer ${currentRefreshToken}`,
             }
           }
         ).then(response => {
