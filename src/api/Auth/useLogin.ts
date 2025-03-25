@@ -10,13 +10,10 @@ const useLogin = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const login = async (email: string, password: string, fcmToken: string | null): Promise<void> => {
-		if (!fcmToken) throw new Error("fcmtokenerror");
-
+	const login = async (email: string, password: string): Promise<void> => {
 		await axios.post(`${apiUrl}/users/login`, {
 			email,
 			password,
-			fcmToken,
 		}).then((response) => {
 			const accessToken = response.data.accessToken;
 			const refreshToken = response.data.refreshToken;
@@ -42,7 +39,8 @@ const useLogin = () => {
 		}).catch((error) => {
 			dispatch(setIsAuthenticated(false));
 			console.error("로그인 실패:", error.message);
-			throw new Error("401Error");
+			if (error.message.includes('401')) throw new Error("401Error");
+			throw new Error("Error");
 		});
 	};
 	return login;

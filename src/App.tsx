@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 //페이지 컴포넌트
-import LoginPage from "./pages/Auth/LoginPage";
+import LoginPage from "./pages/Login/LoginPage";
 import Main from "./pages/Main/Main";
 import BottomNav from "./components/Layout/BottomNav";
 import Search from "./pages/Search/Search";

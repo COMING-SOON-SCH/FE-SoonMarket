@@ -5,7 +5,7 @@ import { Button, IconButton, TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import useLogin from "../../../api/Auth/useLogin";
 
-const LoginForm: React.FC<{ fcmToken: string | null }> = ({ fcmToken }) => {
+const LoginForm: React.FC = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [idError, setIdError] = useState("");
@@ -32,9 +32,10 @@ const LoginForm: React.FC<{ fcmToken: string | null }> = ({ fcmToken }) => {
     if (err === 0) {
       try {
         const fullEmail = `${id}@sch.ac.kr`;
-        await login(fullEmail, password, fcmToken); // FCM 토큰 없이 로그인 호출
+        await login(fullEmail, password);
       } catch (error: any) {
         if (error.message === "401Error") {
+          console.log(error.message);
           setLoginError("아이디 혹은 비밀번호가 정확하지 않습니다.");
         }
         else {
@@ -48,7 +49,7 @@ const LoginForm: React.FC<{ fcmToken: string | null }> = ({ fcmToken }) => {
     <LoginFormBox onSubmit={handleSubmit}>
       <TextFieldContainer>
         <LoginTextField
-          type="id"
+          type="text"
           variant="filled"
           label="아이디"
           value={id}
@@ -57,15 +58,8 @@ const LoginForm: React.FC<{ fcmToken: string | null }> = ({ fcmToken }) => {
           helperText={idError}
           InputProps={{
             endAdornment: (
-              <InputAdornment
-                position="end"
-                style={{
-                  color: "gray",
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "-15px", // 텍스트를 아래로 조금 내림
-                }}>
-                @sch.ac.kr
+              <InputAdornment position="end">
+                <span style={{ color: "gray", marginRight: "8px" }}>@sch.ac.kr</span>
               </InputAdornment>
             ),
           }}
