@@ -12,8 +12,6 @@ import Search from "./pages/Search/Search";
 import Recommend from "./pages/Recommend/RecommendPage";
 import MyPage from "./pages/MyPage/MyPage";
 import SignUp from "./pages/Auth/SignUpPage";
-import FindPw from "./pages/Auth/FindPwPage"
-import ChangePassword from "./pages/Auth/components/FindPwDetailForm"
 import ServerInfo from "./pages/ServerInfo/ServerInfo";
 import Introduction from "./pages/AboutDevelopers/Introduction";
 
@@ -29,6 +27,8 @@ import EditPostPage from "./pages/EditPost/EditPostPage";
 import ChatRoomPage from "./pages/ChatRoom/ChatRoomPage";
 import ChatListPage from "./pages/ChatList/ChatListPage";
 import UserPage from "./pages/UserPage/UserPage";
+import FindPwPage from "./pages/FindPwPage/FindPwPage";
+import ResetPwPage from "./pages/ResetPwPage/ResetPwPage";
 
 const theme = createTheme({
   typography: {
@@ -111,8 +111,8 @@ function App(): JSX.Element {
     { path: "/search", element: <Search />, private: true },
     { path: "/user/:id", element: <UserPage />, private: true },
     { path: "/signup", element: <SignUp /> },
-    { path: "/findpassword", element: <FindPw /> },
-    { path: "/reset-password", element: <ChangePassword /> },
+    { path: "/findpassword", element: <FindPwPage /> },
+    { path: "/reset-password", element: <ResetPwPage /> },
     { path: "/ServerInfo", element: <ServerInfo /> },
     { path: "/introduction", element: <Introduction /> },
   ];

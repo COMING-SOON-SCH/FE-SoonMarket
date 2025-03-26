@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import { Button, TextField, IconButton } from "@mui/material";
+import { Button, TextField, IconButton, InputAdornment } from "@mui/material";
 import { useDispatch } from "react-redux";
 import usePwCode from "../../../api/Auth/usePwCode";
 import { setUserEmail } from "../../../redux/modules/auth";
@@ -14,20 +14,14 @@ const FindPwEmailForm: React.FC = () => {
   const { sendEmail } = usePwCode();
   const dispatch = useDispatch();
 
-  const validateEmail = (value: string): boolean =>
-    /^[a-zA-Z0-9._%+-]+@sch\.ac\.kr$/.test(value);
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
     setEmailError(null);
   };
 
   const handleBlur = () => {
-    if (!email) {
-      setEmailError("이메일을 입력해주세요.");
-    } else if (!validateEmail(email)) {
-      setEmailError("이메일은 @sch.ac.kr 도메인만 허용됩니다.");
-    }
+    if (!email) setEmailError("이메일을 입력해주세요.");
+    if (email.includes('@')) setEmailError("이메일 도메인을 작성하지 않으셔도 됩니다.");
   };
 
   const handleSendEmail = async () => {
@@ -35,13 +29,13 @@ const FindPwEmailForm: React.FC = () => {
       setEmailError("이메일을 입력해주세요.");
       return;
     }
-    if (!validateEmail(email)) {
-      setEmailError("이메일은 @sch.ac.kr 도메인만 허용됩니다.");
+    if (email.includes('@')) {
+      setEmailError("이메일 도메인을 작성하지 않으셔도 됩니다.");
       return;
     }
     setIsSending(true);
     try {
-      await sendEmail(email);
+      await sendEmail(email.concat('@sch.ac.kr'));
       setIsEmailSent(true);
       dispatch(setUserEmail(email));
     } catch (error) {
@@ -63,6 +57,13 @@ const FindPwEmailForm: React.FC = () => {
           onChange={handleEmailChange}
           onBlur={handleBlur}
           error={!!emailError}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <span style={{ color: "gray", marginRight: "8px" }}>@sch.ac.kr</span>
+              </InputAdornment>
+            ),
+          }}
         />
         <IconButton onClick={() => setEmail("")}>
           <HighlightOffOutlinedIcon />
@@ -101,7 +102,7 @@ const FormContainer = styled.div`
 
 const SubTitle = styled.div`
   font-size: 14px;
-  margin-bottom: 0px;
+  margin-bottom: 15px;
 `;
 
 const TextFieldContainer = styled.div`
@@ -161,10 +162,10 @@ const StatusContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 350px; /* 텍스트와 버튼의 너비를 맞춤 */
+  width: 350px;
   heigth: 30px;
   margin-top: -10px;
-
+  padding: 0px 5px;
 `;
 
 const MailButton = styled.button`

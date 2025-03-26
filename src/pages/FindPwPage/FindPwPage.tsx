@@ -11,16 +11,12 @@ const FindPwPage: React.FC = () => {
   return (
     <FindPasswordContainer>
       <Header>
-        <BackButton>
-          <IconButton onClick={() => navigate("/")}>
-            <ArrowBackIcon />
-          </IconButton>
-        </BackButton>
+        <IconButton onClick={() => navigate("/")}>
+          <ArrowBackIcon />
+        </IconButton>
         <Title>Soon-Market</Title>
       </Header>
-      <FormWrapper>
-        <FindPwEmailForm />
-      </FormWrapper>
+      <FindPwEmailForm />
     </FindPasswordContainer>
   );
 };
@@ -31,37 +27,15 @@ const FindPasswordContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'SUIT', sans-serif;
 `;
 
 const Header = styled.div`
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative; /* 백 버튼 위치를 위한 상대 위치 지정 */
-`;
-
-const BackButton = styled.div`
-  position: absolute;
-  left: 16px;
-  top: 16px;
+  padding: 20px 0;
 `;
 
 const Title = styled.h1`
   margin: 100px; /* 원하는 margin 값으로 설정 */
-  font-family: 'SUIT', sans-serif; /* 폰트 설정 */
-`;
-
-const FormWrapper = styled.div`
-  width: 100%;
-  max-width: 390px; /* 최대 너비 설정 */
-  height: calc(100% - 160px); /* 헤더와 여백을 제외한 높이 설정 */
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
 `;
 
 export default FindPwPage;

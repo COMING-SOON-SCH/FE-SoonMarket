@@ -4,10 +4,10 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { Button, TextField, IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import useChangePassword from "../../../api/Auth/useChangePw";
-import useResetPassword from "../../../api/Auth/useResetPw";
+import useChangePassword from "../../api/Auth/useChangePw";
+import useResetPassword from "../../api/Auth/useResetPw";
 
-const FindPwDetailForm: React.FC = () => {
+const ResetPwPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -58,7 +58,6 @@ const FindPwDetailForm: React.FC = () => {
         changePassword(password);
         alert("비밀번호가 성공적으로 변경되었습니다.");
         navigate(-1);
-
       }
       else {
         await resetPassword(token, password);
@@ -132,7 +131,7 @@ const FindPwDetailForm: React.FC = () => {
   );
 };
 
-export default FindPwDetailForm;
+export default ResetPwPage;
 
 /* 스타일 코드 */
 const FormContainer = styled.div`
