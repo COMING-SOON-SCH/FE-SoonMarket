@@ -10,10 +10,9 @@ const usePwCode = () => {
 
   const sendEmail = async (email: string): Promise<void> => {
     try {
-      const response = await axios.post<LoginResponse>(`${apiUrl}/auth/password-reset`, {
+      await axios.post<LoginResponse>(`${apiUrl}/auth/password-reset`, {
         email,
       });
-      alert(response.data || "이메일 전송 요청이 성공적으로 처리되었습니다.");
     } catch (error) {
       const message = axios.isAxiosError(error) ? error.response?.data?.message : "이메일 발송 실패";
       alert(message);
